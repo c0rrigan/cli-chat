@@ -80,8 +80,9 @@ public class ChatManager implements Runnable{
 				so = servSo.accept();
 				nick = nickAlias + id;
 				id++;
-				System.out.println("Nueva conexión ... [ " + nick + " ] " + so.getInetAddress().toString() );
+				System.out.println("Nueva conexión(listener) ... [ " + nick + " ] " + so.getInetAddress().toString() );
 				runner = new ChatClientRunner(so, nick);
+				(new Thread(runner)).start();
 				connected.put(nick, true);
 				chatThreads.put(nick, runner);
 			} catch (IOException e) {

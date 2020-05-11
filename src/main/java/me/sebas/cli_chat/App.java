@@ -18,9 +18,13 @@ public class App {
 	
 	public static void main(String[] args) {
 		System.out.println("cli-chat v0.1");
+		if(args.length < 2) {
+			System.out.println("Saliendo ... falta argumentos");
+			System.exit(0);
+		}
 		var port = Integer.parseInt(args[0]);
 		var sc = new Scanner(System.in);
-		var contacts = FileIO.readContacts();
+		var contacts = FileIO.readContacts(args[1]);
 		ChatClientRunner currentChat = null;
 		ChatManager chatManager = null;
 		try {
@@ -52,8 +56,15 @@ public class App {
 				for (Map.Entry<String, ChatClientRunner> e : chatManager.getChatThreads().entrySet()) {
 					System.out.println("[ " + e.getKey() + " ] := " + e.getValue());
 				}	
+			} else if (tokens[0].contentEquals("hist")) {
+				System.out.println(">chat history");
+				for(String m : currentChat.getHistory()) {
+					System.out.println(m);
+				}
 			} else if (tokens[0].equals("cd")) {
 				if (chatManager.getConnected().containsKey(tokens[1])) {
+					if(currentChat != null)
+						currentChat.setFocused(false);
 					currentChat = chatManager.getChatThreads().get(tokens[1]);
 					currentChat.setFocused(true);
 				} else {

@@ -26,8 +26,8 @@ public class FileIO {
 	 * Lee los contactos del archivo {@literal contacts.json} y los deserializa en una lista de objetos ContactEntry
 	 * @return ArrayList de ContactEntry
 	 */
-	public static ArrayList<ContactEntry> readContacts() {
-		String json = readPlainText(Paths.get(System.getProperty("user.dir"), "contacts.json"));
+	public static ArrayList<ContactEntry> readContacts(String file) {
+		String json = readPlainText(Paths.get(System.getProperty("user.dir"), file));
 		ArrayList<ContactEntry> contacts = gson.fromJson(json, new TypeToken<ArrayList<ContactEntry>>() {}.getType());
 		return contacts;
 	}

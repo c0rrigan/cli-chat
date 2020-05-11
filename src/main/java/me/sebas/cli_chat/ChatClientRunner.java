@@ -32,7 +32,7 @@ public class ChatClientRunner implements Runnable{
 		//so = new Socket(contact.getAddr().getUrl(), contact.getAddr().getPort());
 		so = new Socket();
 		so.connect(new InetSocketAddress(contact.getAddr().getUrl(), contact.getAddr().getPort()), 3000);
-		System.out.println("Nueva conexión : " + so.getInetAddress().toString());
+		System.out.println("Nueva conexión (launcher) : " + so.getInetAddress().toString());
 		wr = new PrintWriter(so.getOutputStream(), true);
 		br = new BufferedReader(new InputStreamReader(so.getInputStream()));
 		history = new ArrayDeque<String>();		
@@ -48,6 +48,7 @@ public class ChatClientRunner implements Runnable{
 	 * @throws IOException
 	 */
 	public ChatClientRunner(Socket socket, String nickname) throws IOException {
+		System.out.println("Nuevo socket con conexión ...");
 		so = socket;
 		wr = new PrintWriter(so.getOutputStream(), true);
 		br = new BufferedReader(new InputStreamReader(so.getInputStream()));
