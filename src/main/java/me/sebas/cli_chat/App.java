@@ -17,6 +17,7 @@ public class App {
 	public final static int PORT = 9988;
 	
 	public static void main(String[] args) {
+		System.out.println("cli-chat v0.1");
 		var sc = new Scanner(System.in);
 		var contacts = FileIO.readContacts();
 		ChatClientRunner currentChat = null;
@@ -29,6 +30,7 @@ public class App {
 			e.printStackTrace();
 		}
 		System.out.println("Terminando inicialización ... ");
+		System.out.println("Linea de comandos...ok");
 		for (;;) {
 			String comm = sc.nextLine();
 			String tokens[] = comm.split("\\s");

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.NoRouteToHostException;
 import java.net.PortUnreachableException;
 import java.net.Socket;
@@ -28,7 +29,9 @@ public class ChatClientRunner implements Runnable{
 	 * @throws IOException
 	 */
 	public ChatClientRunner(ContactEntry contact) throws NoRouteToHostException, PortUnreachableException, UnknownHostException, IOException {
-		so = new Socket(contact.getAddr().getUrl(), contact.getAddr().getPort());
+		//so = new Socket(contact.getAddr().getUrl(), contact.getAddr().getPort());
+		so = new Socket();
+		so.connect(new InetSocketAddress(contact.getAddr().getUrl(), contact.getAddr().getPort()), 3000);
 		wr = new PrintWriter(so.getOutputStream(), true);
 		br = new BufferedReader(new InputStreamReader(so.getInputStream()));
 		history = new ArrayDeque<String>();		
