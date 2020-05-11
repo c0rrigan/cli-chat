@@ -69,6 +69,8 @@ public class ChatManager implements Runnable{
 	/*	Esperar conexiones de otros clientes */
 	@Override
 	public void run() {
+		String nickAlias = "nick";
+		int id = 1;
 		Socket so;
 		ChatClientRunner runner;
 		String nick;
@@ -76,9 +78,12 @@ public class ChatManager implements Runnable{
 		for(;;) {
 			try {
 				so = servSo.accept();
-				nick = so.getInetAddress().getHostAddress();
+				nick = nickAlias + id;
+				id++;
+				System.out.println("Nueva conexión ... [ " + nick + " ] " + so.getInetAddress().toString() );
 				runner = new ChatClientRunner(so, nick);
 				connected.put(nick, true);
+				chatThreads.put(nick, runner);
 			} catch (IOException e) {
 				System.err.println("Error while listening ...");
 				e.printStackTrace();
