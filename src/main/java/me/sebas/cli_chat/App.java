@@ -50,6 +50,7 @@ public class App {
 			} else if (tokens[0].equals("cd")) {
 				if (chatManager.getConnected().containsKey(tokens[1])) {
 					currentChat = chatManager.getChatThreads().get(tokens[1]);
+					currentChat.setFocused(true);
 				} else {
 					System.out.println("Error cambiando a " + tokens[1]);
 				}
