@@ -98,5 +98,8 @@ public class ChatClientRunner implements Runnable{
 			}
 		}
 	}
-
+	@Override
+	public String toString() {
+		return "ChatClientRunner [isFocused=" + isFocused + ", nickname=" + nickname + "]";
+	}
 }
