@@ -18,7 +18,7 @@ public class App {
 	
 	public static void main(String[] args) {
 		System.out.println("cli-chat v0.1");
-		var port = Integer.getInteger(args[1]);
+		var port = Integer.parseInt(args[0]);
 		var sc = new Scanner(System.in);
 		var contacts = FileIO.readContacts();
 		ChatClientRunner currentChat = null;
@@ -47,6 +47,11 @@ public class App {
 				for (Map.Entry<String, Boolean> e : chatManager.getConnected().entrySet()) {
 					System.out.println("[ " + e.getKey() + " ] := " + e.getValue());
 				}
+			} else if (tokens[0].contentEquals("tlist")) {
+				System.out.println(">thread list");
+				for (Map.Entry<String, ChatClientRunner> e : chatManager.getChatThreads().entrySet()) {
+					System.out.println("[ " + e.getKey() + " ] := " + e.getValue());
+				}	
 			} else if (tokens[0].equals("cd")) {
 				if (chatManager.getConnected().containsKey(tokens[1])) {
 					currentChat = chatManager.getChatThreads().get(tokens[1]);
