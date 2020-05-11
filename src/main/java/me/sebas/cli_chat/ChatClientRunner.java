@@ -32,6 +32,7 @@ public class ChatClientRunner implements Runnable{
 		//so = new Socket(contact.getAddr().getUrl(), contact.getAddr().getPort());
 		so = new Socket();
 		so.connect(new InetSocketAddress(contact.getAddr().getUrl(), contact.getAddr().getPort()), 3000);
+		System.out.println("Nueva conexión : " + so.getInetAddress().toString());
 		wr = new PrintWriter(so.getOutputStream(), true);
 		br = new BufferedReader(new InputStreamReader(so.getInputStream()));
 		history = new ArrayDeque<String>();		

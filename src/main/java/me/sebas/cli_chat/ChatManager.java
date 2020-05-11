@@ -19,13 +19,13 @@ public class ChatManager implements Runnable{
 	private HashMap<String, ChatClientRunner> chatThreads;
 
 
-	public ChatManager(ArrayList<ContactEntry> contacts,String nickname) throws IOException {
+	public ChatManager(ArrayList<ContactEntry> contacts,String nickname, int bindPort) throws IOException {
 		connected = new HashMap<String,Boolean>();
 		chatThreads = new HashMap<String,ChatClientRunner>();
 		/* Tratar de conectarse con todos los usuaros en 'contacts' */
 		launchClients(contacts);
 		/* Inicializar el socket del serivdor */
-		servSo = new ServerSocket(me.sebas.cli_chat.App.PORT);
+		servSo = new ServerSocket(bindPort);
 		//chatData = new HashMap<String, ChatBean>();
 		//chatThreads = new HashMap<String,ChatClientRunner>();
 		

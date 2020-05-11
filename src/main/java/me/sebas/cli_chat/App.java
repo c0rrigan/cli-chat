@@ -14,16 +14,17 @@ import me.sebas.cli_chat.io.FileIO;
  */
 public class App {
 	
-	public final static int PORT = 9988;
+	//public final static int PORT = 9988;
 	
 	public static void main(String[] args) {
 		System.out.println("cli-chat v0.1");
+		var port = Integer.getInteger(args[1]);
 		var sc = new Scanner(System.in);
 		var contacts = FileIO.readContacts();
 		ChatClientRunner currentChat = null;
 		ChatManager chatManager = null;
 		try {
-			chatManager = new ChatManager(contacts, "me");
+			chatManager = new ChatManager(contacts, "me", port);
 			(new Thread(chatManager)).start();
 		} catch (IOException e) {
 			System.err.println("Error escuchando conexiones ...");
@@ -39,6 +40,7 @@ public class App {
 //        	}
 			if (tokens[0].equals("exit")) {
 				System.out.println(">exit");
+				sc.close();
 				System.exit(0);
 			} else if (tokens[0].contentEquals("list")) {
 				System.out.println(">list");
@@ -52,7 +54,11 @@ public class App {
 					System.out.println("Error cambiando a " + tokens[1]);
 				}
 			} else {
-				currentChat.sendMsg(comm);
+				if(currentChat != null) {
+					currentChat.sendMsg(comm);
+				}else {
+					System.out.println("No existe sesión activa");
+				}
 			}
 		}
 	}
