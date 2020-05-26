@@ -1,6 +1,7 @@
 package me.sebas.cli_chat;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -61,6 +62,9 @@ public class App {
 				for(String m : currentChat.getHistory()) {
 					System.out.println(m);
 				}
+			} else if (tokens[0].contentEquals("send")) {
+				System.out.println(">send file");
+				currentChat.sendFile(Paths.get(System.getProperty("user.dir"), tokens[1]));
 			} else if (tokens[0].equals("cd")) {
 				if (chatManager.getConnected().containsKey(tokens[1])) {
 					if(currentChat != null)

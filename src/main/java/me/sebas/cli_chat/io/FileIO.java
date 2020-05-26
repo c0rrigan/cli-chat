@@ -1,7 +1,7 @@
 package me.sebas.cli_chat.io;
 
-import java.io.BufferedReader;
-import java.nio.charset.Charset;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -61,5 +61,37 @@ public class FileIO {
 			e.printStackTrace();
 		}
 		return text;
+	}
+	/**
+	 * Leer el archivo ubicado en la dirección 'path' y regresar sus contenidos en un arreglo de bytes
+	 * @param path Dirección del archivo
+	 * @return Arreglo de bytes
+	 */
+	public static byte[] readFile(Path path) {
+		byte[] barray = null;
+		try {
+			barray = Files.readAllBytes(path);
+		} catch (IOException e) {
+			System.err.println("Error leyendo el archivo : " + path.toString());
+			e.printStackTrace();
+		}
+		return barray;
+	}
+	/**
+	 * Escribir el arreglo de bytes data en un archivo con el nombre filename
+	 * @param data Arreglo de bytes
+	 * @param path Cadena con el nombre del archivo
+	 */
+	public static void writeToFile(byte[] data, String filename) {
+		try {
+			var path = Paths.get(System.getProperty("user.dir"), "rec_copy_" + filename);
+			var writer = new BufferedOutputStream(Files.newOutputStream(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE));
+			writer.write(data);
+			writer.close();
+		} catch (IOException e) {
+			System.err.println("Erro escribiendo : " + filename);
+			e.printStackTrace();
+		}
+		
 	}
 }
