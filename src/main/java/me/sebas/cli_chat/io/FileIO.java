@@ -2,6 +2,7 @@ package me.sebas.cli_chat.io;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -76,6 +77,16 @@ public class FileIO {
 			e.printStackTrace();
 		}
 		return barray;
+	}
+	public static InputStream readFileStream(Path path) {
+		InputStream is = null;
+		try {
+			is = Files.newInputStream(path, StandardOpenOption.READ);
+		} catch (IOException e) {
+			System.err.println("Error leyendo el archivo : " + path.toString());
+			e.printStackTrace();
+		}
+		return is;
 	}
 	/**
 	 * Escribir el arreglo de bytes data en un archivo con el nombre filename

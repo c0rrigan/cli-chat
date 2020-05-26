@@ -119,25 +119,20 @@ public class ChatClientRunner implements Runnable{
 	
 	private void readFile(String filename, int fileSize) {
 		var stream = new ByteArrayOutputStream();
-		//var buff = new byte[1000];
-		int bytesIn = 0, b = 0;
+		var buffer = new byte[4096];
+		int bytesIn = 0, read = 0;
 		try {
-//			while((bytesIn = bin.read(buff)) > 0) {
-//				System.out.println("Read : " + bytesIn + "bytes");
-//				if(bytesIn == buff.length) {
-//					stream.write(buff);
-//				}else {
-//					stream.write(buff, 0, bytesIn);
-//				}
-//			}
 			while(bytesIn < fileSize) {
-				//System.out.println("BytesIn : " + bytesIn);
-				b = bin.read();
-				stream.write(b);
-				bytesIn++;
+				read = bin.read(buffer);
+				if(read == -1 )
+					break;
+				System.out.println("Read bytes : " + read);
+				bytesIn += read;
+				stream.write(buffer, 0, read); // Escribir solamente los bytes que leyó
 			}
 			System.out.println("Stream size " + stream.size());
 			FileIO.writeToFile(stream.toByteArray(), filename);
+			System.out.println("Received" + filename + "!!!");
 		} catch (IOException e) {
 			System.err.println("Error leyendo archivo de socket [file : " + filename + "]");
 			e.printStackTrace();
@@ -148,16 +143,23 @@ public class ChatClientRunner implements Runnable{
 		System.out.println("Enviado archivo" + path.toString() + "... ");
 		try {
 			var fileBytes = Files.readAllBytes(path);
+			int fileSize = fileBytes.length;
+			int buffLen = 4096, sent = 0;
 			/* Avisar que se manda archivo */
 			wr.println("file");
 			wr.println(path.getFileName());
-			wr.println(fileBytes.length);
-			//wr.flush();
-//			for(byte b : fileBytes) {
-//				bout.write(b);
-//			}
-			//bout.write(3);
-			bout.write(fileBytes);
+			wr.println(fileSize);
+			while(sent < fileSize) {
+				if((fileSize - sent) > buffLen ) {
+					bout.write(fileBytes, sent, buffLen);
+					sent += buffLen;
+				}else {
+					bout.write(fileBytes, sent, fileSize - sent);
+					break;
+				}
+			}
+//			bout.write(fileBytes);
+//			wr.flush();
 		} catch (IOException e) {
 			System.err.println("Error enviando archivo : " + path.toString());
 			e.printStackTrace();

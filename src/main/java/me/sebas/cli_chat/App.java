@@ -71,6 +71,8 @@ public class App {
 						currentChat.setFocused(false);
 					currentChat = chatManager.getChatThreads().get(tokens[1]);
 					currentChat.setFocused(true);
+					//TODO: Agregar campo a currentChat con nickname
+					System.out.println("Chatting with : " + tokens[1]);
 				} else {
 					System.out.println("Error cambiando a " + tokens[1]);
 				}
